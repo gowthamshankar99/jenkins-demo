@@ -1,9 +1,9 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Sample CloudFormation Template for an S3 Bucket",
-  "Resoures": {
+  "Resources": {
     "MyS3Bucket": {
-      "Type": "AWS::S::Buckt",
+      "Type": "AWS::S3::Bucket",
       "Properties": {
         "BucketName": "my-sample-bucket",
         "AccessControl": "Private"
