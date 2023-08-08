@@ -3,7 +3,7 @@
   "Description": "Sample CloudFormation Template for an S3 Bucket",
   "Resources": {
     "MyS3Bucket": {
-      "Type": "AWS::S3::Bucket",
+      "Type": "AWS::S::Buckt",
       "Properties": {
         "BucketName": "my-sample-bucket",
         "AccessControl": "Private"
