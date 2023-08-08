@@ -1,18 +1,6 @@
 pipeline {
     agent any
-    stages {
-        stage('Checkout') {
-            steps {
-                sh 'ls'
-            }
-        }
-        
-        stage('Build and Test') {
-            steps {
-                // Run your build and test commands here
-                sh 'ls'
-            }
-        }
+    stages {        
         stage('Validate CF Templates') {
             steps {
                 script {
@@ -32,5 +20,11 @@ pipeline {
                 }
             }
         }
+        stage('cfn-nag cfn templates') {
+            steps {
+                // Run your build and test commands here
+                echo "cfn-nag the templates"
+            }
+        }        
     }
 }
