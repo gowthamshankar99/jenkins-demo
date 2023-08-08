@@ -1,9 +1,16 @@
 pipeline {
     agent any
     stages {
-        stage('Example') {
+        stage('Checkout') {
             steps {
-                echo 'Hello World'
+                sh 'ls'
+            }
+        }
+        
+        stage('Build and Test') {
+            steps {
+                // Run your build and test commands here
+                sh 'ls'
             }
         }
     }
