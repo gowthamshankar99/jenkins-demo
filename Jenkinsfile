@@ -19,7 +19,7 @@ pipeline {
                     def templatesDir = ''  // assuming this is where the repo is cloned
 
                     // List all CloudFormation template files in the directory
-                    def templateFiles = findFiles(glob: "${templatesDir}/**/*.json")
+                    def templateFiles = findFiles(glob: '**/*.json')
 
                     // Loop through each template file and validate
                     for (def templateFile in templateFiles) {
