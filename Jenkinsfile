@@ -4,7 +4,7 @@ pipeline {
         stage('Validate CF Templates') {
             steps {
                 script {
-                    def templatesDir = ''  // assuming this is where the repo is cloned test add
+                    def templatesDir = ''  // assuming this is where the repo is cloned test adds
 
                     // List all CloudFormation template files in the directory
                     def templateFiles = findFiles(glob: '**/*.json')
