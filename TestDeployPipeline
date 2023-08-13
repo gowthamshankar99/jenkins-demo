@@ -15,31 +15,34 @@ pipeline {
                 }
             }
         }
-        stage('Monitor Step Function Execution') {
-            steps {
-                script {
-                    def checkStatusCmd = "aws stepfunctions describe-execution --execution-arn ${EXECUTION_ARN}"
-                    def executionStatus = ''
-
-                    while (executionStatus != 'SUCCEEDED' && executionStatus != 'FAILED') {
-                        executionStatus = sh(script: checkStatusCmd, returnStdout: true).trim()
-                        echo "Step Function Execution Status: ${executionStatus}"
-
-                        if (executionStatus == 'RUNNING') {
-                            sleep time: 10, unit: 'SECONDS'
-                        } else {
-                            break
-                        }
-                    }
-
-                    if (executionStatus == 'SUCCEEDED') {
-                        echo "Step Function Execution succeeded!"
+    stage('Monitor Step Function Execution') {
+        steps {
+            script {
+                def checkStatusCmd = "aws stepfunctions describe-execution --execution-arn ${EXECUTION_ARN}"
+                def executionStatus = ''
+    
+                while (executionStatus != 'SUCCEEDED' && executionStatus != 'FAILED') {
+                    def executionStatusOutput = sh(script: checkStatusCmd, returnStdout: true).trim()
+                    def executionStatusJson = readJSON text: executionStatusOutput
+                    executionStatus = executionStatusJson.status
+    
+                    echo "Step Function Execution Status: ${executionStatus}"
+    
+                    if (executionStatus == 'RUNNING') {
+                        sleep time: 10, unit: 'SECONDS'
                     } else {
-                        error "Step Function Execution failed!"
+                        break
                     }
+                }
+    
+                if (executionStatus == 'SUCCEEDED') {
+                    echo "Step Function Execution succeeded!"
+                } else {
+                    error "Step Function Execution failed!"
                 }
             }
         }
+    }
     }
 }
 
