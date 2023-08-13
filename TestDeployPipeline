@@ -6,7 +6,7 @@ pipeline {
                 script {
                     print("hukum")
                     print("${ghprbPullId}")
-                    def stateMachineArn = 'arn:aws:states:us-east-1:471774948982:stateMachine:grap-test'
+                    def stateMachineArn = 'arn:aws:states:us-east-1:471774948982:stateMachine:grap-sqs-poc'
                     //def inputPayload = '{"key": ${ghprbPullId}}'  // Replace with your input JSON payload
                     def inputPayload = '{"key": ' + env.ghprbPullId + '}'
 
