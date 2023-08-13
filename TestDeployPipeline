@@ -7,10 +7,36 @@ pipeline {
                     def stateMachineArn = 'arn:aws:states:us-east-1:471774948982:stateMachine:grap-test'
                     def inputPayload = '{"key": "value"}'  // Replace with your input JSON payload
 
-                    def awsCliCmd = "aws stepfunctions start-execution --state-machine-arn ${stateMachineArn} --input '${inputPayload}'"
-                    def awsCliOutput = sh(script: awsCliCmd, returnStdout: true).trim()
+                    def startExecutionCmd = "aws stepfunctions start-execution --state-machine-arn ${stateMachineArn} --input '${inputPayload}'"
+                    def executionArn = sh(script: startExecutionCmd, returnStdout: true).trim()
 
-                    echo "AWS CLI Output: ${awsCliOutput}"
+                    echo "Step Function Execution ARN: ${executionArn}"
+                    env.EXECUTION_ARN = executionArn
+                }
+            }
+        }
+        stage('Monitor Step Function Execution') {
+            steps {
+                script {
+                    def checkStatusCmd = "aws stepfunctions describe-execution --execution-arn ${EXECUTION_ARN}"
+                    def executionStatus = ''
+
+                    while (executionStatus != 'SUCCEEDED' && executionStatus != 'FAILED') {
+                        executionStatus = sh(script: checkStatusCmd, returnStdout: true).trim()
+                        echo "Step Function Execution Status: ${executionStatus}"
+
+                        if (executionStatus == 'RUNNING') {
+                            sleep time: 10, unit: 'SECONDS'
+                        } else {
+                            break
+                        }
+                    }
+
+                    if (executionStatus == 'SUCCEEDED') {
+                        echo "Step Function Execution succeeded!"
+                    } else {
+                        error "Step Function Execution failed!"
+                    }
                 }
             }
         }
