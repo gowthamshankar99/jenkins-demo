@@ -4,7 +4,8 @@ pipeline {
         stage('Invoke Step Function') {
             steps {
                 script {
-                    print(${ghprbPullId})
+                    print("hukum")
+                    print("${ghprbPullId}")
                     def stateMachineArn = 'arn:aws:states:us-east-1:471774948982:stateMachine:grap-test'
                     def inputPayload = '{"key": "${ghprbPullId}"}'  // Replace with your input JSON payload
 
