@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
+        stage('Checkout') { 
             steps {
                 sh 'ls'
             }
@@ -9,7 +9,7 @@ pipeline {
         
         stage('Build and Test') {
             steps {
-                // Run your build and test commands here
+                // Run your build and test commands here  - new comment
                 sh 'ls'
             }
         }
